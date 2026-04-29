@@ -4,10 +4,6 @@ import plotly.express as px
 import plotly.graph_objects as go
 from datetime import datetime
 import time
-import os
-
-# Base directory - works both locally and on Streamlit Cloud
-BASE_DIR = os.path.dirname(os.path.abspath(__file__))
 
 st.set_page_config(
     page_title="Women's Representation in Indian Politics",
@@ -97,55 +93,36 @@ PARTY_COLORS = {
     'AAP': '#F39C12', 'NCP': '#3498DB', 'Others': '#95A5A6'
 }
 
-@st.cache_data(ttl=10)
 def load_mp_data():
-    try:
-        df = pd.read_csv(os.path.join(BASE_DIR, 'mp_data.csv'))
-        return {'total_seats': int(df['total_seats'].iloc[0]), 'women': int(df['women'].iloc[0]), 'percentage': float(df['percentage'].iloc[0])}
-    except:
-        return {'total_seats': 543, 'women': 78, 'percentage': 14.36}
+    return {'total_seats': 543, 'women': 74, 'percentage': 13.6}
 
-@st.cache_data(ttl=10)
 def load_mla_data():
-    sample_data = [
-        {'state': 'Andhra Pradesh', 'total_seats': 175, 'women': 15, 'percentage': 8.57},
-        {'state': 'Bihar', 'total_seats': 243, 'women': 3, 'percentage': 1.23},
-        {'state': 'Karnataka', 'total_seats': 224, 'women': 36, 'percentage': 16.07},
-        {'state': 'Maharashtra', 'total_seats': 288, 'women': 20, 'percentage': 6.94},
-        {'state': 'Rajasthan', 'total_seats': 200, 'women': 25, 'percentage': 12.5},
-        {'state': 'Tamil Nadu', 'total_seats': 234, 'women': 38, 'percentage': 16.24},
-        {'state': 'Uttar Pradesh', 'total_seats': 403, 'women': 44, 'percentage': 10.92},
-        {'state': 'West Bengal', 'total_seats': 294, 'women': 41, 'percentage': 13.95}
+    data = [
+        {'state': 'West Bengal', 'total_seats': 294, 'women': 41, 'percentage': 13.9},
+        {'state': 'Rajasthan', 'total_seats': 200, 'women': 27, 'percentage': 13.5},
+        {'state': 'Tamil Nadu', 'total_seats': 234, 'women': 29, 'percentage': 12.4},
+        {'state': 'Bihar', 'total_seats': 243, 'women': 28, 'percentage': 11.5},
+        {'state': 'Uttar Pradesh', 'total_seats': 403, 'women': 44, 'percentage': 10.9},
+        {'state': 'Maharashtra', 'total_seats': 288, 'women': 24, 'percentage': 8.3},
+        {'state': 'Andhra Pradesh', 'total_seats': 175, 'women': 14, 'percentage': 8.0},
+        {'state': 'Karnataka', 'total_seats': 224, 'women': 14, 'percentage': 6.2},
     ]
-    try:
-        df = pd.read_csv(os.path.join(BASE_DIR, 'mla_data.csv'))
-        # Normalize column names: strip spaces, lowercase
-        df.columns = df.columns.str.strip().str.lower()
-        return df
-    except:
-        return pd.DataFrame(sample_data)
+    return pd.DataFrame(data)
 
-@st.cache_data(ttl=10)
 def load_party_data():
-    sample_data = [
-        {'Party': 'BJP', 'Women_MLAs': 105, 'Women_MPs': 34, 'Total_Women': 139, 'State': 'Multiple'},
-        {'Party': 'INC', 'Women_MLAs': 78, 'Women_MPs': 21, 'Total_Women': 99, 'State': 'Multiple'},
-        {'Party': 'TMC', 'Women_MLAs': 56, 'Women_MPs': 12, 'Total_Women': 68, 'State': 'West Bengal'},
-        {'Party': 'SP', 'Women_MLAs': 32, 'Women_MPs': 8, 'Total_Women': 40, 'State': 'Uttar Pradesh'},
-        {'Party': 'BSP', 'Women_MLAs': 18, 'Women_MPs': 4, 'Total_Women': 22, 'State': 'Uttar Pradesh'},
-        {'Party': 'DMK', 'Women_MLAs': 22, 'Women_MPs': 6, 'Total_Women': 28, 'State': 'Tamil Nadu'},
-        {'Party': 'AIADMK', 'Women_MLAs': 14, 'Women_MPs': 3, 'Total_Women': 17, 'State': 'Tamil Nadu'},
+    data = [
+        {'Party': 'BJP', 'Women_MLAs': 105, 'Women_MPs': 31, 'Total_Women': 136, 'State': 'Multiple'},
+        {'Party': 'INC', 'Women_MLAs': 48, 'Women_MPs': 13, 'Total_Women': 61, 'State': 'Multiple'},
+        {'Party': 'TMC', 'Women_MLAs': 38, 'Women_MPs': 11, 'Total_Women': 49, 'State': 'West Bengal'},
+        {'Party': 'SP', 'Women_MLAs': 20, 'Women_MPs': 5, 'Total_Women': 25, 'State': 'Uttar Pradesh'},
+        {'Party': 'DMK', 'Women_MLAs': 15, 'Women_MPs': 5, 'Total_Women': 20, 'State': 'Tamil Nadu'},
+        {'Party': 'BSP', 'Women_MLAs': 8, 'Women_MPs': 0, 'Total_Women': 8, 'State': 'Uttar Pradesh'},
+        {'Party': 'AIADMK', 'Women_MLAs': 7, 'Women_MPs': 1, 'Total_Women': 8, 'State': 'Tamil Nadu'},
         {'Party': 'AAP', 'Women_MLAs': 12, 'Women_MPs': 0, 'Total_Women': 12, 'State': 'Punjab/Delhi'},
-        {'Party': 'NCP', 'Women_MLAs': 10, 'Women_MPs': 3, 'Total_Women': 13, 'State': 'Maharashtra'},
-        {'Party': 'Others', 'Women_MLAs': 45, 'Women_MPs': 9, 'Total_Women': 54, 'State': 'Multiple'}
+        {'Party': 'NCP', 'Women_MLAs': 5, 'Women_MPs': 1, 'Total_Women': 6, 'State': 'Maharashtra'},
+        {'Party': 'Others', 'Women_MLAs': 35, 'Women_MPs': 7, 'Total_Women': 42, 'State': 'Multiple'},
     ]
-    try:
-        df = pd.read_csv(os.path.join(BASE_DIR, 'party_data.csv'))
-        # Normalize column names: strip spaces
-        df.columns = df.columns.str.strip()
-        return df
-    except:
-        return pd.DataFrame(sample_data)
+    return pd.DataFrame(data)
 
 def get_live_time():
     return datetime.now().strftime("%H:%M:%S")
