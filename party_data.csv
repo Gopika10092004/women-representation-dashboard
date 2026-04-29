@@ -1,11 +1,11 @@
-Party	Women_MLAs	Women_MPs	Total_Women	State
-BJP	105	31	136	Multiple
-INC	48	13	61	Multiple
-TMC	38	11	49	West Bengal
-SP	20	5	25	Uttar Pradesh
-BSP	8	0	8	Uttar Pradesh
-DMK	15	5	20	Tamil Nadu
-AIADMK	7	1	8	Tamil Nadu
-AAP	12	0	12	Punjab/Delhi
-NCP	5	1	6	Maharashtra
-Others	35	7	42	Multiple
+Party,Women_MLAs,Women_MPs,Total_Women,State
+BJP,105,31,136,Multiple
+INC,48,13,61,Multiple
+TMC,38,11,49,West Bengal
+SP,20,5,25,Uttar Pradesh
+DMK,15,5,20,Tamil Nadu
+BSP,8,0,8,Uttar Pradesh
+AIADMK,7,1,8,Tamil Nadu
+AAP,12,0,12,Punjab/Delhi
+NCP,5,1,6,Maharashtra
+Others,35,7,42,Multiple
