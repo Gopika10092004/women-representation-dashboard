@@ -4,6 +4,10 @@ import plotly.express as px
 import plotly.graph_objects as go
 from datetime import datetime
 import time
+import os
+
+# Base directory - works both locally and on Streamlit Cloud
+BASE_DIR = os.path.dirname(os.path.abspath(__file__))
 
 st.set_page_config(
     page_title="Women's Representation in Indian Politics",
@@ -96,7 +100,7 @@ PARTY_COLORS = {
 @st.cache_data(ttl=10)
 def load_mp_data():
     try:
-        df = pd.read_csv('mp_data.csv')
+        df = pd.read_csv(os.path.join(BASE_DIR, 'mp_data.csv'))
         return {'total_seats': int(df['total_seats'].iloc[0]), 'women': int(df['women'].iloc[0]), 'percentage': float(df['percentage'].iloc[0])}
     except:
         return {'total_seats': 543, 'women': 78, 'percentage': 14.36}
@@ -114,7 +118,10 @@ def load_mla_data():
         {'state': 'West Bengal', 'total_seats': 294, 'women': 41, 'percentage': 13.95}
     ]
     try:
-        return pd.read_csv('mla_data.csv')
+        df = pd.read_csv(os.path.join(BASE_DIR, 'mla_data.csv'))
+        # Normalize column names: strip spaces, lowercase
+        df.columns = df.columns.str.strip().str.lower()
+        return df
     except:
         return pd.DataFrame(sample_data)
 
@@ -133,7 +140,10 @@ def load_party_data():
         {'Party': 'Others', 'Women_MLAs': 45, 'Women_MPs': 9, 'Total_Women': 54, 'State': 'Multiple'}
     ]
     try:
-        return pd.read_csv('party_data.csv')
+        df = pd.read_csv(os.path.join(BASE_DIR, 'party_data.csv'))
+        # Normalize column names: strip spaces
+        df.columns = df.columns.str.strip()
+        return df
     except:
         return pd.DataFrame(sample_data)
 
